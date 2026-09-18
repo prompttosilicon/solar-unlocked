@@ -1,0 +1,16 @@
+{
+  "name": "Solar Unlocked for ES3C35P",
+  "version": "1.0.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        {
+          "path": "firmware/solar-unlocked-v1.0.0-es3c35p-factory.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}

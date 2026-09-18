@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#07131c">
+    <meta name="description" content="Solar Unlocked is a local-first touchscreen monitor for SunPower solar systems. Explore the project and install the firmware from your browser.">
+    <title>Solar Unlocked · Keep Your Solar Data Home</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307131c'/%3E%3Ccircle cx='32' cy='32' r='11' fill='%23ffd43b'/%3E%3Cg stroke='%23ffd43b' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M32 7v8M32 49v8M7 32h8M49 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M20 44l-6 6'/%3E%3C/g%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Solar Unlocked home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="7"/><path d="M20 3v6m0 22v6M3 20h6m22 0h6M8 8l5 5m14 14 5 5m0-24-5 5M13 27l-5 5"/></svg>
+        </span>
+        <span>Solar Unlocked</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#hardware">Hardware</a>
+        <a href="#install">Install firmware</a>
+        <a href="#how-to-use">How to use</a>
+        <a href="#help">Help</a>
+        <a class="source-link" href="https://github.com/prompttosilicon/solar-unlocked">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="overview">
+        <div class="hero-copy">
+          <p class="eyebrow">Local-first solar monitoring</p>
+          <h1>Keep Your Solar Data Home<br><em>No Cloud Required</em></h1>
+          <p class="lede"><strong>Solar Unlocked</strong> turns a small ESP32-S3 touchscreen into a dedicated monitor for your SunPower system. View live production and usage, keep historical records on local storage, and stay in control of your own energy data.</p>
+          <div class="hero-actions">
+            <a class="primary-link" href="#install">Install Solar Unlocked</a>
+            <a class="secondary-link" href="#hardware">See what you need</a>
+          </div>
+        </div>
+
+        <aside class="device-card" aria-label="Compatible ESP32-S3 touchscreen module">
+          <img
+            class="device-image"
+            src="assets/esp32-s3-touchscreen-product-alternate.png"
+            alt="Front and rear views of the compatible ESP32-S3 3.5-inch touchscreen module"
+          >
+        </aside>
+      </section>
+
+      <section class="background-story" aria-labelledby="background-title">
+        <div>
+          <p class="eyebrow">Why this project exists</p>
+          <h2 id="background-title">Your energy history should remain yours</h2>
+        </div>
+        <div class="background-copy">
+          <p>After SunPower Corporation filed for Chapter 11 bankruptcy in August 2024, monitoring for many existing systems transitioned to SunStrong Connect. Access to features such as historical performance, analytics, and panel-level monitoring is now part of a paid premium plan for many system owners. Solar Unlocked gives owners of compatible PVS6 systems another option: an inexpensive ESP32-S3 touchscreen that collects and stores solar data locally on a microSD card. Owners can view live and historical information on the touchscreen or open the dashboard from a browser on the same home network. The firmware is completely free and open source.</p>
+          <p class="source-note">Background: <a href="https://us.sunpower.com/acquisition-announcement" target="_blank" rel="noopener noreferrer">SunPower bankruptcy announcement</a> and <a href="https://sunstrongmanagement.com/help-center/" target="_blank" rel="noopener noreferrer">SunStrong monitoring information</a>.</p>
+        </div>
+      </section>
+
+      <section class="hardware" id="hardware" aria-labelledby="hardware-title">
+        <div>
+          <p class="eyebrow">Hardware</p>
+          <h2 id="hardware-title">A small, affordable build</h2>
+          <p class="section-intro">No computer or server needs to run alongside the finished device. Gather these four items before installing the firmware.</p>
+        </div>
+        <div class="hardware-list">
+          <article>
+            <span>01</span>
+            <div><h3>ESP32-S3 touchscreen module</h3><p>Use the <a href="https://www.lcdwiki.com/3.5inch_ESP32-S3_Display" target="_blank" rel="noopener noreferrer">LCDWiki 3.5-inch ESP32-S3 Display</a>, model ES3C35P. The supported board has 16 MB flash, 8 MB PSRAM, a 320 × 480 capacitive-touch IPS screen, an ST77922 display controller, USB-C, and a microSD slot.</p></div>
+          </article>
+          <article>
+            <span>02</span>
+            <div><h3>microSD card</h3><p>Use a reputable card with at least 8 GB capacity, formatted as FAT32. A 16–32 GB high-endurance card is recommended for reliable, continuous history recording.</p></div>
+          </article>
+          <article>
+            <span>03</span>
+            <div><h3>USB data cable</h3><p>Use a USB-A-to-USB-C or USB-C-to-USB-C cable that supports data. Charge-only cables can power the board but cannot install the firmware.</p></div>
+          </article>
+          <article>
+            <span>04</span>
+            <div><h3>5 V USB power supply</h3><p>Choose a regulated, good-quality USB power supply suitable for continuous touchscreen, Wi‑Fi, and microSD operation.</p></div>
+          </article>
+        </div>
+        <div class="compatibility-warning">
+          <strong>Legacy PVS6 systems only</strong>
+          <p>Solar Unlocked is designed for legacy SunPower systems using a PVS6 monitoring device. PVS5 systems and other solar gateways are not compatible.</p>
+        </div>
+      </section>
+
+      <section class="installer-section" id="install" aria-labelledby="install-title">
+        <div class="installer-heading">
+          <p class="eyebrow">Browser-based installer</p>
+          <h2 id="install-title">Install the firmware over USB</h2>
+          <p>Connect a supported display to a desktop computer with a data-capable USB cable. No development tools or command line are required.</p>
+        </div>
+        <div class="install-panel">
+          <div class="release-row">
+            <div>
+              <span class="label">Ready to install</span>
+              <strong>Solar Unlocked v1.0.0</strong>
+            </div>
+            <span class="chip">For ESP32-S3 with 3.5" display (ES3C35P)</span>
+          </div>
+          <div class="install-action">
+            <esp-web-install-button manifest="manifest.json">
+              <button slot="activate" class="install-button">Connect &amp; install</button>
+              <span slot="unsupported">Use desktop Chrome or Edge to install.</span>
+              <span slot="not-allowed">Open this page over HTTPS to enable USB access.</span>
+            </esp-web-install-button>
+            <p>Works on Windows, macOS, Linux, and ChromeOS with a data-capable USB cable.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="warning" aria-labelledby="before-title">
+        <div class="warning-icon" aria-hidden="true">!</div>
+        <div>
+          <h2 id="before-title">Before you install</h2>
+          <p>This installation erases the ESP32 flash, including saved Wi‑Fi and device settings. Files on a removable microSD card are not touched. Disconnect other serial devices before continuing.</p>
+          <p><strong>Use at your own risk.</strong> The firmware is provided as-is, without warranty. By installing or using it, you accept responsibility for the installation process and for any damage, data loss, interruption, or other consequence that may result.</p>
+        </div>
+      </section>
+
+      <section class="how-to-use" id="how-to-use" aria-labelledby="use-title">
+        <div>
+          <p class="eyebrow">How to use</p>
+          <h2 id="use-title">Set up your monitor after installation</h2>
+          <p class="section-intro">Keep the touchscreen, PVS6, and the computer or phone used for the dashboard on the same home network.</p>
+        </div>
+        <ol class="use-steps">
+          <li><span>01</span><div><h3>Connect the PVS6 to home Wi‑Fi</h3><p>In the SunStrong Connect app, open <strong>Profile</strong>, choose <strong>WiFi Settings</strong>, and follow the prompts to connect the PVS6 to your 2.4 GHz home network.</p></div></li>
+          <li><span>02</span><div><h3>Find the PVS6 address and serial suffix</h3><p>Open your router’s app or administration page and look in its connected-device or DHCP list for the PVS6; record its local IP address. Find the PVS6 serial number on the unit’s label and record its final five characters exactly. Treat these details as private. If the label is not safely visible, contact your installer rather than opening electrical equipment.</p></div></li>
+          <li><span>03</span><div><h3>Configure Solar Unlocked</h3><p>Open <strong>Settings</strong> on the touchscreen. Select your home Wi‑Fi, enter its password, then enter the PVS6 IP address and final five serial characters. Select your timezone and tap <strong>Save &amp; Connect</strong>. Watch the status area at the top of the screen; after Wi‑Fi and PVS6 connections succeed, open <strong>Live</strong> to confirm readings appear.</p></div></li>
+          <li><span>04</span><div><h3>Start recording history</h3><p>With the device powered off, insert a good-quality FAT32 microSD card, then power it back on. Valid energy readings are recorded automatically. After a few hours, open <strong>History</strong> to see accumulated data points. The <strong>Panels</strong> page shows live information for individual solar panels.</p></div></li>
+          <li><span>05</span><div><h3>Open the browser dashboard</h3><p>On a phone or computer connected to the same home network, visit <strong>http://mypvs.local</strong> in a browser to view or download your locally stored data.</p></div></li>
+        </ol>
+      </section>
+
+      <!--section class="details" aria-labelledby="details-title">
+        <div>
+          <p class="eyebrow">Release details</p>
+          <h2 id="details-title">Know exactly what is being installed</h2>
+          <p>The installer uses a single merged factory image containing the bootloader, partition table, initial OTA data, application, and embedded dashboard.</p>
+        </div>
+        <dl>
+          <div><dt>Release</dt><dd>v1.0.0</dd></div>
+          <div><dt>Target</dt><dd>ESP32-S3 / ES3C35P</dd></div>
+          <div><dt>Factory image</dt><dd>1,823,200 bytes</dd></div>
+          <div><dt>SHA-256</dt><dd><code>9718df41796a…19f85c39</code></dd></div>
+        </dl>
+        <div class="downloads">
+          <a href="firmware/solar-unlocked-v1.0.0-es3c35p-factory.bin" download>Download factory image</a>
+          <a href="firmware/solar-unlocked-v1.0.0-es3c35p-ota.bin" download>Download OTA image</a>
+          <a href="firmware/SHA256SUMS.txt" download>Download checksums</a>
+        </div>
+      </section-->
+
+      <section class="help" id="help" aria-labelledby="help-title">
+        <div><p class="eyebrow">Troubleshooting</p><h2 id="help-title">If the device is not detected</h2></div>
+        <ul>
+          <li>Use desktop Google Chrome or Microsoft Edge; Safari and Firefox do not currently expose Web Serial.</li>
+          <li>Try another USB cable—many charging cables do not carry data.</li>
+          <li>Close serial monitors and other apps that may already be using the port.</li>
+          <li>If prompted, hold the device's BOOT button while connecting, then release it.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <span>Solar Unlocked · Open-source firmware</span>
+      <a href="https://github.com/prompttosilicon/solar-unlocked/issues">Report an issue</a>
+    </footer>
+  </body>
+</html>
