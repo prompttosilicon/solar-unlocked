@@ -7,6 +7,9 @@ on:
     paths:
       - "site/**"
       - ".github/workflows/pages.yml"
+  release:
+    types:
+      - published
   workflow_dispatch:
 
 permissions:
@@ -36,10 +39,59 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6
 
+      - name: Select firmware release
+        id: firmware
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PUBLISHED_RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "release" ]]; then
+            release_tag="${PUBLISHED_RELEASE_TAG}"
+          else
+            release_tag="$(gh api "repos/${GITHUB_REPOSITORY}/releases/latest" --jq '.tag_name')"
+          fi
+
+          if [[ ! "${release_tag}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "Unsupported release tag: ${release_tag}" >&2
+            exit 1
+          fi
+
+          firmware_file="solar-unlocked-${release_tag}-es3c35p-factory.bin"
+          echo "tag=${release_tag}" >> "${GITHUB_OUTPUT}"
+          echo "version=${release_tag#v}" >> "${GITHUB_OUTPUT}"
+          echo "file=${firmware_file}" >> "${GITHUB_OUTPUT}"
+
+      - name: Prepare website and download firmware release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FIRMWARE_TAG: ${{ steps.firmware.outputs.tag }}
+          FIRMWARE_VERSION: ${{ steps.firmware.outputs.version }}
+          FIRMWARE_FILE: ${{ steps.firmware.outputs.file }}
+        run: |
+          mkdir -p _site
+          cp -a site/. _site/
+          rm -rf _site/firmware
+          mkdir -p _site/firmware
+
+          gh release download "${FIRMWARE_TAG}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --pattern "${FIRMWARE_FILE}" \
+            --dir _site/firmware
+
+          test -s "_site/firmware/${FIRMWARE_FILE}"
+
+          jq \
+            --arg version "${FIRMWARE_VERSION}" \
+            --arg path "firmware/${FIRMWARE_FILE}" \
+            '.version = $version | .builds[0].parts[0].path = $path' \
+            site/manifest.json > _site/manifest.json
+
       - name: Upload website artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: site
+          path: _site
 
       - name: Deploy website
         id: deployment
