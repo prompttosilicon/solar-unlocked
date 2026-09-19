@@ -1,2 +1,0 @@
-9718df41796a1743e27193f4e314320e0fce7f260d89993e8ed8d62519f85c39  solar-unlocked-v1.0.0-es3c35p-factory.bin
-06bf93f7bb6e735fe6b920ec9fa6be3b5f1ab10a54fc2a90694c0cbc31574622  solar-unlocked-v1.0.0-es3c35p-ota.bin
