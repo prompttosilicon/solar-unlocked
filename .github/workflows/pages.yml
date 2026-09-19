@@ -70,6 +70,8 @@ jobs:
           FIRMWARE_VERSION: ${{ steps.firmware.outputs.version }}
           FIRMWARE_FILE: ${{ steps.firmware.outputs.file }}
         run: |
+          ota_file="solar-unlocked-${FIRMWARE_TAG}-es3c35p-ota.bin"
+
           mkdir -p _site
           cp -a site/. _site/
           rm -rf _site/firmware
@@ -78,15 +80,37 @@ jobs:
           gh release download "${FIRMWARE_TAG}" \
             --repo "${GITHUB_REPOSITORY}" \
             --pattern "${FIRMWARE_FILE}" \
+            --pattern "${ota_file}" \
             --dir _site/firmware
 
           test -s "_site/firmware/${FIRMWARE_FILE}"
+          test -s "_site/firmware/${ota_file}"
+
+          ota_size="$(stat -c '%s' "_site/firmware/${ota_file}")"
+          ota_sha256="$(sha256sum "_site/firmware/${ota_file}" | cut -d ' ' -f 1)"
+          ota_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${FIRMWARE_TAG}/${ota_file}"
 
           jq \
             --arg version "${FIRMWARE_VERSION}" \
             --arg path "firmware/${FIRMWARE_FILE}" \
             '.version = $version | .builds[0].parts[0].path = $path' \
             site/manifest.json > _site/manifest.json
+
+          jq -n \
+            --arg version "${FIRMWARE_VERSION}" \
+            --arg hardware "es3c35p" \
+            --arg url "${ota_url}" \
+            --argjson size "${ota_size}" \
+            --arg sha256 "${ota_sha256}" \
+            --arg releaseNotes "Solar Unlocked ${FIRMWARE_VERSION}" \
+            '{
+              version: $version,
+              hardware: $hardware,
+              url: $url,
+              size: $size,
+              sha256: $sha256,
+              releaseNotes: $releaseNotes
+            }' > _site/firmware/latest.json
 
       - name: Upload website artifact
         uses: actions/upload-pages-artifact@v5
